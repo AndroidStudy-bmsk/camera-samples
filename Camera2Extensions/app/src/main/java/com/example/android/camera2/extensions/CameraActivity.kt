@@ -23,10 +23,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.activity.result.ActivityResultLauncher
 
 /*
  * This is the launching point for the camera extension app where the camera fragment container
@@ -45,14 +45,18 @@ class CameraActivity : AppCompatActivity() {
                 // Before setting full screen flags, we must wait a bit to let UI settle; otherwise,
                 // we may be trying to set app to immersive mode before it's ready and the flags do
                 // not stick
-                container.postDelayed({
-                                          @Suppress("DEPRECATION")
-                                          container.systemUiVisibility = FLAGS_FULLSCREEN
-                                      },
-                                      IMMERSIVE_FLAG_TIMEOUT)
+                container.postDelayed(
+                    {
+                        @Suppress("DEPRECATION")
+                        container.systemUiVisibility = FLAGS_FULLSCREEN
+                    },
+                    IMMERSIVE_FLAG_TIMEOUT
+                )
             } else {
-                Toast.makeText(this, R.string.permission_required,
-                               Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this, R.string.permission_required,
+                    Toast.LENGTH_SHORT
+                ).show()
                 finish()
             }
         }
@@ -66,13 +70,16 @@ class CameraActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-            PackageManager.PERMISSION_GRANTED) {
-            container.postDelayed({
-                                      @Suppress("DEPRECATION")
-                                      container.systemUiVisibility = FLAGS_FULLSCREEN
-                                  },
-                                  IMMERSIVE_FLAG_TIMEOUT)
-        } else  {
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            container.postDelayed(
+                {
+                    @Suppress("DEPRECATION")
+                    container.systemUiVisibility = FLAGS_FULLSCREEN
+                },
+                IMMERSIVE_FLAG_TIMEOUT
+            )
+        } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
@@ -81,10 +88,10 @@ class CameraActivity : AppCompatActivity() {
         /** Combination of all flags required to put activity into immersive mode */
         @Suppress("DEPRECATION")
         const val FLAGS_FULLSCREEN =
-                View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            View.SYSTEM_UI_FLAG_LOW_PROFILE or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 
         /** Milliseconds used for UI animations */
         private const val IMMERSIVE_FLAG_TIMEOUT = 500L

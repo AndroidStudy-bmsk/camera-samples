@@ -32,7 +32,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name="com.example.android.camera2.extensions.CameraActivity"
+            android:name=".CameraActivity"
             android:exported="true"
             android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme">
